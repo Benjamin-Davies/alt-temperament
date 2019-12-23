@@ -1,0 +1,12 @@
+body {
+    font-family: sans-serif;
+    margin: 0px;
+}
+
+header {
+    width: 80%;
+    max-width: 1024px;
+    margin: 2rem auto;
+
+    text-align: center;
+}
