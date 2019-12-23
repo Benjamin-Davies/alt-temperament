@@ -1,8 +1,8 @@
-const synth = new Tone.Synth().toDestination();
+const synth = new Tone.PolySynth().toDestination();
 
 let canvas, scale;
 
-const currentScale = 19;
+const currentScale = 12;
 const toneMaxWidth = 50;
 
 const scales = {
@@ -74,15 +74,28 @@ function draw() {
 }
 
 function mousePressed() {
+    const freq = frequencyAt(mouseX, mouseY);
+    if (freq)
+        synth.triggerAttack(freq);
+}
+
+function mouseReleased() {
+    const freq = frequencyAt(mouseX, mouseY);
+    if (freq)
+        synth.triggerRelease(freq);
+}
+
+function frequencyAt(x, y) {
     const scale = scales[currentScale];
     const toneCount = scale.length;
     const toneWidth = Math.min(toneMaxWidth, width / (toneCount + 1));
 
-    const n = Math.floor(mouseX / toneWidth);
-    const freq = 440 / 2 * Math.pow(2, (n + 3) / toneCount);
-    synth.triggerAttack(freq);
-}
-
-function mouseReleased() {
-    synth.triggerRelease();
+    if (y < 0) {
+        return null;
+    } else if (y < 300) {
+        const n = Math.floor(x / toneWidth);
+        return 440 / 2 * Math.pow(2, (n + 3) / toneCount);
+    } else {
+        return null;
+    }
 }
