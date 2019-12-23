@@ -10,3 +10,7 @@ header {
 
     text-align: center;
 }
+
+canvas {
+    box-shadow: 0 0 1rem #aaa;
+}
