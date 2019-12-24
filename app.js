@@ -1,4 +1,4 @@
-const synth = new Tone.PolySynth().toDestination();
+const synth = new Tone.PolySynth({ polyphony: 10 }).toDestination();
 
 let canvas, scale;
 
@@ -73,16 +73,28 @@ function draw() {
     }
 }
 
+let currentFreq = 0;
 function mousePressed() {
     const freq = frequencyAt(mouseX, mouseY);
-    if (freq)
-        synth.triggerAttack(freq);
+    if (freq) synth.triggerAttack(freq);
+    currentFreq = freq;
 }
 
 function mouseReleased() {
+    const freq = currentFreq;
+    if (freq) synth.triggerRelease(freq);
+    currentFreq = 0;
+}
+
+function mouseDragged() {
     const freq = frequencyAt(mouseX, mouseY);
-    if (freq)
-        synth.triggerRelease(freq);
+    if (!freq) {
+        synth.releaseAll();
+    } else if (currentFreq !== freq) {
+        synth.triggerRelease(currentFreq);
+        synth.triggerAttack(freq);
+    }
+    currentFreq = freq;
 }
 
 function frequencyAt(x, y) {
