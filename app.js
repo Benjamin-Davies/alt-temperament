@@ -18,10 +18,9 @@ function setup() {
 
     createCanvas(windowWidth, 300).parent(container);
 
-    const scaleSel = createSelect();
-    scaleSel.parent(
-        createElement('p', 'Scale: ').parent(controls),
-    );
+    const scaleSel = createRadio();
+    scaleSel.parent(controls);
+    scaleSel.html('Scale: ');
     for (const scale in scales) {
         scaleSel.option(scale);
     }
@@ -119,9 +118,11 @@ function frequencyAt(x, y) {
 
     if (y < 0) {
         return null;
-    } else if (y < 300) {
+    } else if (y < 200) {
         const n = Math.floor(x / toneWidth);
         return 440 / 2 * Math.pow(2, (n + 3) / toneCount);
+    } else if (y < 300) {
+        return null;
     } else {
         return null;
     }
