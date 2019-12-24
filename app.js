@@ -1,12 +1,11 @@
 const synth = new Tone.PolySynth({ polyphony: 10 }).toDestination();
 
-let canvas, scale;
-
-const currentScale = 12;
+let currentScale = 12;
 const toneMaxWidth = 50;
 
 const scales = {
     12: [ 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0 ],
+    17: [ 0, 1, 2, 0, 1, 2, 0, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0 ],
     19: [ 0, 1, 2, 0, 1, 2, 0, 3, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 3 ],
     24: [ 0, 2, 1, 3, 0, 2, 1, 3, 0, 2, 0, 2, 1, 3, 0, 2, 1, 3, 0, 2, 1, 3, 0, 2 ],
 };
@@ -17,12 +16,27 @@ function setup() {
     const container = select('#container');
     const controls = select('#controls');
 
-    canvas = createCanvas(windowWidth, 300);
-    canvas.parent(container);
+    createCanvas(windowWidth, 300).parent(container);
+
+    const scaleSel = createSelect();
+    scaleSel.parent(
+        createElement('p', 'Scale: ').parent(controls),
+    );
+    for (const scale in scales) {
+        scaleSel.option(scale);
+    }
+    scaleSel.value(currentScale);
+    scaleSel.changed(() => {
+        currentScale = scaleSel.value();
+        redraw();
+    });
+
+    noLoop();
 }
 
 function windowResized() {
     resizeCanvas(windowWidth, height);
+    redraw();
 }
 
 function draw() {
@@ -95,6 +109,9 @@ function mouseDragged() {
         synth.triggerAttack(freq);
     }
     currentFreq = freq;
+
+    // Prevent the user from accidentaly selecting anything
+    return false;
 }
 
 function frequencyAt(x, y) {
