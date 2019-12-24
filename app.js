@@ -69,7 +69,7 @@ function draw() {
         lastNote[1] = newValue;
         thisNote[0] = newValue;
     }
-    whiteNotes[whiteNotes.length - 1][1] = width;
+    whiteNotes[whiteNotes.length - 1][1] = width + 5;
 
     // Draw them
     fill(colors[0]);
