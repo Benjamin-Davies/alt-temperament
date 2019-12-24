@@ -87,6 +87,7 @@ function draw() {
     }
 }
 
+// Mouse handling
 let currentFreq = 0;
 function mousePressed() {
     const freq = frequencyAt(mouseX, mouseY);
@@ -109,9 +110,6 @@ function mouseDragged() {
         synth.triggerAttack(freq);
     }
     currentFreq = freq;
-
-    // Prevent the user from accidentaly selecting anything
-    return false;
 }
 
 function frequencyAt(x, y) {
