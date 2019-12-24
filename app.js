@@ -111,6 +111,11 @@ function mouseDragged() {
     currentFreq = freq;
 }
 
+function frequency(n, scale) {
+    const toneCount = scale.length;
+    return 440 / 2 * Math.pow(2, (n + 3) / toneCount);
+}
+
 function frequencyAt(x, y) {
     const scale = scales[currentScale];
     const toneCount = scale.length;
@@ -120,9 +125,37 @@ function frequencyAt(x, y) {
         return null;
     } else if (y < 200) {
         const n = Math.floor(x / toneWidth);
-        return 440 / 2 * Math.pow(2, (n + 3) / toneCount);
+        return frequency(n, scale);
     } else if (y < 300) {
-        return null;
+        // Find the closest whole note if we are on the bottom of the keyboard
+
+        // Scale the position and compensate for finding the nearest middle
+        const pos = (x / toneWidth) - 0.5;
+        const totalDrawn = width / toneWidth;
+
+        // Find the note to the left of the one we think we played
+        let left = 0;
+        for (let i = Math.floor(pos); i >= 0; i--) {
+            if (scale[i % toneCount] === 0) {
+                left = i;
+                break;
+            }
+        }
+
+        // Find the note to the right of the one we think we played
+        let right = 0;
+        for (let i = Math.ceil(pos); i < totalDrawn; i--) {
+            if (scale[i % toneCount] === 0) {
+                right = i;
+                break;
+            }
+        }
+
+        // Find the closest
+        const closest = pos - left < right - pos
+              ? left
+              : right;
+        return frequency(closest, scale);
     } else {
         return null;
     }
