@@ -1,6 +1,6 @@
 const synth = new Tone.PolySynth({ polyphony: 10 }).toDestination();
 
-let currentScale = 12;
+let currentScale = '12';
 const toneMaxWidth = 50;
 
 const scales = {
@@ -154,7 +154,6 @@ function frequencyAt(x, y) {
             }
         }
 
-        console.log(pos, left, right);
         // Find the closest
         const closest = pos - left < right - pos
               ? left
