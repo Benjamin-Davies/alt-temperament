@@ -113,7 +113,10 @@ function mouseDragged() {
 
 function frequency(n, scale) {
     const toneCount = scale.length;
-    return 440 / 2 * Math.pow(2, (n + 3) / toneCount);
+    // Always start from C,
+    // which is a minor third, or 3 normal semitones, above A
+    // Also go an octave down
+    return 440 * Math.pow(2, (3 - 12) / 12 + n / toneCount);
 }
 
 function frequencyAt(x, y) {
