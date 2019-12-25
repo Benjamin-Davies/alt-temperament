@@ -129,7 +129,7 @@ function frequencyAt(x, y) {
     } else if (y < 300) {
         // Find the closest whole note if we are on the bottom of the keyboard
 
-        // Scale the position and compensate for finding the nearest middle
+        // Scale the position
         const pos = (x / toneWidth) - 0.5;
         const totalDrawn = width / toneWidth;
 
@@ -144,13 +144,14 @@ function frequencyAt(x, y) {
 
         // Find the note to the right of the one we think we played
         let right = 0;
-        for (let i = Math.ceil(pos); i < totalDrawn; i--) {
+        for (let i = Math.ceil(pos); i < totalDrawn; i++) {
             if (scale[i % toneCount] === 0) {
                 right = i;
                 break;
             }
         }
 
+        console.log(pos, left, right);
         // Find the closest
         const closest = pos - left < right - pos
               ? left
