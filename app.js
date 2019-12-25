@@ -146,8 +146,8 @@ function frequencyAt(x, y) {
         }
 
         // Find the note to the right of the one we think we played
-        let right = 0;
-        for (let i = Math.ceil(pos); i < totalDrawn; i++) {
+        let right = Infinity;
+        for (let i = Math.ceil(pos); i <= totalDrawn; i++) {
             if (scale[i % toneCount] === 0) {
                 right = i;
                 break;
